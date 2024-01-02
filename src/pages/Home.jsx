@@ -43,7 +43,7 @@ export default function Home() {
           <div className="w-[200px] h-[1px] bg-[#989A9E]" />
         </div>
         <div className="mb-11">
-          <button className="bg-[#7B62FF] rounded-lg p-2 text-1xl text-white font-extrabold border-2 border-white mx-auto block">
+          <button className="bg-[#7B62FF] rounded-2xl px-3 py-2 text-1xl text-white font-extrabold border-2 border-white mx-auto block">
             나만의 공유 페이지 만들기
           </button>
         </div>
@@ -71,7 +71,7 @@ export default function Home() {
 
         <div className="max-w-[600px] mx-auto mb-1"><img src="./sample.jpg" alt="" className="w-full"/></div>
         <div className="w-full text-center mb-20">
-          <button className="bg-[#7B62FF] rounded-3xl p-2 text-1xl text-white font-extrabold border-2 border-white mx-auto block">
+          <button className="bg-[#7B62FF] rounded-2xl px-3 py-2 text-1xl text-white font-extrabold border-2 border-white mx-auto block">
             데모 보기
           </button></div>
       </section>
