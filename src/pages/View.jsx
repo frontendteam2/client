@@ -60,16 +60,16 @@ export default function View(){
 
         <div className="border-b-2 border-gray-100 mt-7">
           <p className="font-bold">오시는 방법</p>
-          <span className="w-full text-sm ">
+          <p className="w-full text-sm p-2">
             건물 외벽에 시그널플래너 로고를 찾으시면 됩니다.
-          </span>
+          </p>
         </div>
 
         <div className="border-b-2 border-gray-100 mt-7">
           <p className="font-bold">무료주차장</p>
-          <span className="w-full text-sm m-3">
+          <p className="w-full text-sm p-2">
             건물 1층에 무료 주차 가능합니다.
-          </span>
+          </p>
         </div>
 
         <div className="border-b-2 border-gray-100 mt-7">
@@ -78,9 +78,9 @@ export default function View(){
 
         <div className="border-b-2 border-gray-100 mt-7">
           <p className="font-bold">알리고 싶은 추가 정보</p>
-          <span className="w-full text-sm m-3">
+          <p className="w-full text-sm p-2">
             해빗팩토리 소개
-          </span>
+          </p>
         </div>
 
         <button type="button" className="font-bold block p-3 m-auto mt-10 bg-gray-200 border-none rounded-2xl">
