@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 // import Question from '../components/home/Content';
 import { useDispatch, useSelector } from "react-redux";
 import Content from "../components/content/Content";
@@ -13,6 +13,9 @@ export default function Form() {
   let [detailForm, setDetailForm] = useState([]);
   const width = useMaxWidth();
 
+  const inputTitle = useRef(null);
+  const inputUrl = useRef(null);
+
   let state = useSelector(state => state)
 
   const dispatch = useDispatch();
@@ -23,7 +26,7 @@ export default function Form() {
     setDetailForm([...state]);
   }, [state]); // state가 변경될 때만 useEffect가 실행되도록 설정
   // 나머지 컴포넌트 로직...
-
+  console.log(detailForm);
   const addItem = (txt) => {
     if (txt === 'image') {
       dispatch({ type: 'image' })
@@ -41,39 +44,48 @@ export default function Form() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    const formData = new FormData(e.target);
+    const formDataObject = {};
+    formData.forEach((value, key) => {
+      if (!key.includes('content') && !key.includes('image') && !key.includes('address')) {
+        formDataObject[key] = value
+      }
+    })
 
-    const userConfirmed = window.confirm('하실?.');
-    if (userConfirmed) {
-      const formData = new FormData(e.target);
-      const formDataObject = {};
-      let i = 0;
-      formData.forEach((value, key) => {
-        if (key.includes('content')) {
-          setDetailForm([...detailForm, detailForm[i].content = value])
-          i++
-        } else if (key.includes('image')) {
-          setDetailForm([...detailForm, detailForm[i].image = value])
-          i++
-        } else if (key.includes('address')) {
-          setDetailForm([...detailForm, detailForm[i].address = value])
-          i++
-        } else {
-          formDataObject[key] = value;
-        }
-      });
-      axios({
-        method: 'post',
-        url: `http://127.0.0.1:8000/newForm`,
-        data: [formDataObject, detailForm],
-
-
-      })
-        .then(result => {
-
-        })
-        .catch(err => console.log('에러==>' + err))
+    if (formDataObject.url === '') {
+      alert('url을 입력해주세요.')
+      return inputUrl.current.focus()
+    }
+    if (formDataObject.title === '') {
+      alert('제목을 입력해주세요.')
+      return inputTitle.current.focus()
     }
 
+    let i = 0;
+
+    formData.forEach((value, key) => {
+      if (key.includes('content') && i >= detailForm.length) {
+        setDetailForm(prevDetailForm => [...prevDetailForm, { content: value }]);
+        i++
+      } else if (key.includes('image') && i >= detailForm.length) {
+        setDetailForm(prevDetailForm => [...prevDetailForm, { image: value }]);
+        i++
+      } else if (key.includes('address') && i >= detailForm.length) {
+        setDetailForm(prevDetailForm => [...prevDetailForm, { address: value }]);
+        i++
+      }
+    });
+    const userConfirmed = window.confirm('하실?.');
+    if (userConfirmed) {
+    axios({
+      method: 'post',
+      url: `http://127.0.0.1:8000/newForm`,
+      data: [formDataObject, detailForm],
+    })
+      .then(result => {
+      })
+      .catch(err => console.log('에러==>' + err))
+    }
 
   }
 
@@ -93,13 +105,13 @@ export default function Form() {
           <div className="mt-5 rounded-xl bg-stone-200">
             <div className="block flex text-center ">
               <label htmlFor="" className={`w-[30%] box-border px-3 py-4 text-stone-900  ${width ? 'text-sm' : 'text-xs'} `}>http://localhost/</label>
-              <input type="text" maxLength='20' name='url' placeholder="url을 입력해주세요." className="rounded-xl text-sm py-4 block box-border w-[70%]  bg-stone-50 px-2 box-border" /></div>
+              <input type="text" maxLength='20' ref={inputUrl} name='url' placeholder="url을 입력해주세요." className="rounded-xl text-sm py-4 block box-border w-[70%]  bg-stone-50 px-2 box-border" /></div>
           </div>
 
           <div className="text-sm mt-12 text-stone-900 font-semibold block">페이지 제목을 입력해주세요</div>
           <div className="mt-5 rounded-xl bg-stone-200">
             <div className="block flex text-center ">
-              <input type="text" name='title' maxLength='20' placeholder="페이지 제목을 입력해주세요." className="rounded-xl text-sm py-4 block flex-1 bg-stone-50 px-2 box-border" />
+              <input type="text" name='title' ref={inputTitle} maxLength='20' placeholder="페이지 제목을 입력해주세요." className="rounded-xl text-sm py-4 block flex-1 bg-stone-50 px-2 box-border" />
             </div>
           </div>
 
