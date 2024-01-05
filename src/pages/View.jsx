@@ -6,10 +6,12 @@ import { useMaxWidth } from "../util/useMaxWidth";
 import Kakao from "../components/view/Kakao";
 import Slide from "../components/view/Slide";
 
+
 export default function View(){
   let [modal, setModal] = useState(false)
   const width = useMaxWidth();
 
+  
   //주소복사
   const handleCopyClipBoard = async (text) => {
     try {
@@ -20,12 +22,8 @@ export default function View(){
     }
   };
 
-  //사진 슬라이드
-  
-
   return(
   <div className={`${width ? " " : "min-w-[400px]"} w-1/2 p-10 mx-auto font-['JalnanGothic']`}>
-  {/* // <div className={`min-w-[150px] max-w-[300px] ${width?'mx-[30px]':'m-[5px]'} w-1/2 mx-auto font-['JalnanGothic']`}> */}
       <div className="box1 w-full flex mt-3">
         <div className="inline float-left ">
             <h2 className="text-3xl inline-flex font-['JalnanGothic']">해빗팩토리</h2>
@@ -65,8 +63,8 @@ export default function View(){
             <IoMdArrowDroprightCircle className="float-left mr-1" />
             <p className="text-[.85rem] ">사진보기</p>
           </div>
-          <img className={`${width ? "w-36 h-36 object-cover float-left pt-2 pb-2 pl-1" : "w-24 h-24 object-cover float-left pt-2 pb-2 pl-1"}`} src="https://juso-io.s3.ap-northeast-2.amazonaws.com/upload/63_4e495b68-18c3-466f-bb6a-a2c8fc9d18a1.jpeg" alt="" />
-          {/* <Slide /> */}
+          {/* <img className={`${width ? "w-36 h-36 object-cover float-left pt-2 pb-2 pl-1" : "w-24 h-24 object-cover float-left pt-2 pb-2 pl-1"}`} src="https://juso-io.s3.ap-northeast-2.amazonaws.com/upload/63_4e495b68-18c3-466f-bb6a-a2c8fc9d18a1.jpeg" alt="" /> */}
+          <Slide/>
           <div className="clear-both"></div>
         </div>
 
