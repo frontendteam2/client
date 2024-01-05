@@ -1,20 +1,26 @@
+
 import { useState, useEffect, useRef } from "react";
+
 // import Question from '../components/home/Content';
 import { useDispatch, useSelector } from "react-redux";
 import Content from "../components/content/Content";
 import { useMaxWidth } from "../util/useMaxWidth";
+
 import ImgUpload from './../components/ImgUpload/ImgUpload';
 import SearchAddr from './../components/searchaddr/SearchAddr';
 import axios from "axios";
 
+
 export default function Form() {
   const [questionTitle, setQuestionTitle] = useState('');
   const [btnToggle, setBtnToggle] = useState(false);
+
   let [detailForm, setDetailForm] = useState([]);
   const width = useMaxWidth();
 
   const inputTitle = useRef(null);
   const inputUrl = useRef(null);
+
 
   let state = useSelector(state => state)
 
@@ -41,6 +47,7 @@ export default function Form() {
     }
 
   };
+
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -95,6 +102,7 @@ export default function Form() {
         <fieldset className="mx-auto w-[100%] box-border block">
 
 
+
           <h2 className="mt-28 text-2xl font-bold">주소 추가하기</h2>
           <p className="text-sm mt-10 font-bold text-stone-900">
             공유할 때 사용할 내 주소 페이지의 URL을 입력해주세요. <br />
@@ -105,13 +113,17 @@ export default function Form() {
           <div className="mt-5 rounded-xl bg-stone-200">
             <div className="block flex text-center ">
               <label htmlFor="" className={`w-[30%] box-border px-3 py-4 text-stone-900  ${width ? 'text-sm' : 'text-xs'} `}>http://localhost/</label>
+
               <input type="text" maxLength='20' ref={inputUrl} name='url' placeholder="url을 입력해주세요." className="rounded-xl text-sm py-4 block box-border w-[70%]  bg-stone-50 px-2 box-border" /></div>
+
           </div>
 
           <div className="text-sm mt-12 text-stone-900 font-semibold block">페이지 제목을 입력해주세요</div>
           <div className="mt-5 rounded-xl bg-stone-200">
             <div className="block flex text-center ">
+
               <input type="text" name='title' ref={inputTitle} maxLength='20' placeholder="페이지 제목을 입력해주세요." className="rounded-xl text-sm py-4 block flex-1 bg-stone-50 px-2 box-border" />
+
             </div>
           </div>
 
@@ -119,6 +131,7 @@ export default function Form() {
           {state && state.map((v, i) => {
             if (v.type === 'content') {
               return <Content key={i} num={i} txt={v.title} />
+
             } else if (v.type === 'image') {
               return <ImgUpload key={i} num={i} />
             } else if (v.type === 'address') {
@@ -140,6 +153,7 @@ export default function Form() {
               }
               <button className="mt-3 py-1 w-[100%]  bg-neutral-400 hover:bg-neutral-500 py-2  text-center text-white font-bold  rounded-md cursor-pointer" >저장 하기</button>
 
+
             </ul>
           </div>
         </fieldset>
@@ -150,4 +164,5 @@ export default function Form() {
     </main>
   );
 }
+
 
