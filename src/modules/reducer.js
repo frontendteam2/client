@@ -10,10 +10,12 @@ export default function reducer(state = items, action) {
   }
   else if (action.type === 'image') {
     console.log(action.type);
-    return state
+
+    return [...state,{type :action.type,title : '이미지'}]
   } else if (action.type === 'address') {
     console.log(action.type);
-    return state
+    return  [...state,{type :action.type,title : '주소'}]
+
   } else if (action.type === 'close') {
     console.log(action,state);
     // const updatedQuestions = [...state];
