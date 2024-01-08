@@ -1,38 +1,29 @@
-
 import { useState, useEffect, useRef } from "react";
-
 // import Question from '../components/home/Content';
 import { useDispatch, useSelector } from "react-redux";
 import Content from "../components/content/Content";
 import { useMaxWidth } from "../util/useMaxWidth";
-
 import ImgUpload from './../components/ImgUpload/ImgUpload';
 import SearchAddr from './../components/searchaddr/SearchAddr';
 import axios from "axios";
 
 
+import { FaBan } from "react-icons/fa";
+
 export default function Form() {
   const [questionTitle, setQuestionTitle] = useState('');
   const [btnToggle, setBtnToggle] = useState(false);
-
-  let [detailForm, setDetailForm] = useState([]);
+  const [urlCheck, setUrlCheck] = useState(true);
   const width = useMaxWidth();
 
   const inputTitle = useRef(null);
   const inputUrl = useRef(null);
-
 
   let state = useSelector(state => state)
 
   const dispatch = useDispatch();
 
 
-  useEffect(() => {
-    // state가 변경될 때마다 detailForm을 업데이트
-    setDetailForm([...state]);
-  }, [state]); // state가 변경될 때만 useEffect가 실행되도록 설정
-  // 나머지 컴포넌트 로직...
-  console.log(detailForm);
   const addItem = (txt) => {
     if (txt === 'image') {
       dispatch({ type: 'image' })
@@ -48,7 +39,6 @@ export default function Form() {
 
   };
 
-
   const handleSubmit = (e) => {
     e.preventDefault();
     const formData = new FormData(e.target);
@@ -62,45 +52,59 @@ export default function Form() {
     if (formDataObject.url === '') {
       alert('url을 입력해주세요.')
       return inputUrl.current.focus()
+    } else if (!urlCheck) {
+      alert('사용할 수 없는 url입니다.')
+      return inputUrl.current.focus()
     }
     if (formDataObject.title === '') {
       alert('제목을 입력해주세요.')
       return inputTitle.current.focus()
     }
-
+    let copyData = [...state];
     let i = 0;
-
     formData.forEach((value, key) => {
-      if (key.includes('content') && i >= detailForm.length) {
-        setDetailForm(prevDetailForm => [...prevDetailForm, { content: value }]);
-        i++
-      } else if (key.includes('image') && i >= detailForm.length) {
-        setDetailForm(prevDetailForm => [...prevDetailForm, { image: value }]);
-        i++
-      } else if (key.includes('address') && i >= detailForm.length) {
-        setDetailForm(prevDetailForm => [...prevDetailForm, { address: value }]);
-        i++
+      if (key.includes('content') ) {
+        copyData[i] = { category: copyData[i].category, content: value }
+        i++;
+      } else if (key.includes('image') ) {
+        copyData[i] = { category: copyData[i].category, content: value }
+        i++;
+      } else if (key.includes('address') ) {
+        copyData[i] = { category: copyData[i].category, content: value }
+        i++;
       }
     });
+
+
     const userConfirmed = window.confirm('하실?.');
     if (userConfirmed) {
-    axios({
-      method: 'post',
-      url: `http://127.0.0.1:8000/newForm`,
-      data: [formDataObject, detailForm],
-    })
-      .then(result => {
+      axios({
+        method: 'post',
+        url: `http://127.0.0.1:8000/newForm`,
+        data: [formDataObject, copyData],
       })
-      .catch(err => console.log('에러==>' + err))
+        .then(result => {
+        })
+        .catch(err => console.log('에러==>' + err))
     }
 
+  }
+
+  const checkUrl = (e) => {
+    axios({
+      method: 'get',
+      url: `http://127.0.0.1:8000/newForm/${e.target.value}`,
+    })
+      .then(result => {
+        setUrlCheck(result.data.cnt === 0 ? true : false)
+      })
+      .catch(err => console.log('에러==>' + err))
   }
 
   return (
     <main className="min-h-[100vh] mb-24">
       <form onSubmit={handleSubmit} className={`${width ? 'w-[50%]' : 'w-[90%]'} mx-auto block`}>
         <fieldset className="mx-auto w-[100%] box-border block">
-
 
 
           <h2 className="mt-28 text-2xl font-bold">주소 추가하기</h2>
@@ -113,29 +117,25 @@ export default function Form() {
           <div className="mt-5 rounded-xl bg-stone-200">
             <div className="block flex text-center ">
               <label htmlFor="" className={`w-[30%] box-border px-3 py-4 text-stone-900  ${width ? 'text-sm' : 'text-xs'} `}>http://localhost/</label>
-
-              <input type="text" maxLength='20' ref={inputUrl} name='url' placeholder="url을 입력해주세요." className="rounded-xl text-sm py-4 block box-border w-[70%]  bg-stone-50 px-2 box-border" /></div>
-
+              <input type="text" maxLength='20' ref={inputUrl} onBlur={(e) => checkUrl(e)} name='url' placeholder="url을 입력해주세요." className="rounded-xl text-sm py-4 block box-border w-[70%]  bg-stone-50 px-2 box-border" /></div>
           </div>
+          {!urlCheck && <p className="text-red-400 font-bold px-5 py-3 flex"><FaBan /><span className="relative bottom-1 left-1">사용할 수 없는 url입니다.</span></p>}
 
           <div className="text-sm mt-12 text-stone-900 font-semibold block">페이지 제목을 입력해주세요</div>
           <div className="mt-5 rounded-xl bg-stone-200">
             <div className="block flex text-center ">
-
               <input type="text" name='title' ref={inputTitle} maxLength='20' placeholder="페이지 제목을 입력해주세요." className="rounded-xl text-sm py-4 block flex-1 bg-stone-50 px-2 box-border" />
-
             </div>
           </div>
 
           {/* {state.question.map((item, index) => item)} */}
           {state && state.map((v, i) => {
-            if (v.type === 'content') {
-              return <Content key={i} num={i} txt={v.title} />
-
-            } else if (v.type === 'image') {
+            if (v.category === '이미지') {
               return <ImgUpload key={i} num={i} />
-            } else if (v.type === 'address') {
+            } else if (v.category === '주소') {
               return <SearchAddr key={i} num={i} />
+            } else {
+              return <Content key={i} num={i} category={v.category} />
             }
           })}
           <div className={`${width ? 'fixed top-80 right-40 w-[250px]' : 'static w-[100%] mt-10'} `} >
@@ -153,7 +153,6 @@ export default function Form() {
               }
               <button className="mt-3 py-1 w-[100%]  bg-neutral-400 hover:bg-neutral-500 py-2  text-center text-white font-bold  rounded-md cursor-pointer" >저장 하기</button>
 
-
             </ul>
           </div>
         </fieldset>
@@ -164,5 +163,4 @@ export default function Form() {
     </main>
   );
 }
-
 
