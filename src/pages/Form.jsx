@@ -7,14 +7,15 @@ import ImgUpload from './../components/ImgUpload/ImgUpload';
 import SearchAddr from './../components/searchaddr/SearchAddr';
 import axios from "axios";
 
-
 import { FaBan } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
 
 export default function Form() {
   const [questionTitle, setQuestionTitle] = useState('');
   const [btnToggle, setBtnToggle] = useState(false);
   const [urlCheck, setUrlCheck] = useState(true);
   const width = useMaxWidth();
+  const navigate = useNavigate();
 
   const inputTitle = useRef(null);
   const inputUrl = useRef(null);
@@ -25,16 +26,15 @@ export default function Form() {
 
 
   const addItem = (txt) => {
-    if (txt === 'image') {
-      dispatch({ type: 'image' })
-    } else if (txt === 'address') {
-      dispatch({ type: 'address' })
-    } else if (txt === 'content' && questionTitle === '') {
+
+    if (txt === 'content' && questionTitle === '') {
       alert('제목을 입력해 주세요!')
       return
-    } else if (txt = 'content' && questionTitle) {
+    } else if (txt === 'content' && questionTitle) {
       dispatch({ type: 'content', title: questionTitle })
       setQuestionTitle('')
+    } else {
+      dispatch({ type: txt })
     }
 
   };
@@ -60,23 +60,23 @@ export default function Form() {
       alert('제목을 입력해주세요.')
       return inputTitle.current.focus()
     }
+
     let copyData = [...state];
     let i = 0;
     formData.forEach((value, key) => {
-      if (key.includes('content') ) {
+      if (key.includes('content')) {
         copyData[i] = { category: copyData[i].category, content: value }
         i++;
-      } else if (key.includes('image') ) {
+      } else if (key.includes('image')) {
         copyData[i] = { category: copyData[i].category, content: value }
         i++;
-      } else if (key.includes('address') ) {
+      } else if (key.includes('address')) {
         copyData[i] = { category: copyData[i].category, content: value }
         i++;
       }
     });
 
-
-    const userConfirmed = window.confirm('하실?.');
+    const userConfirmed = window.confirm('페이지를 발행 하시겠습니까 ?');
     if (userConfirmed) {
       axios({
         method: 'post',
@@ -84,6 +84,8 @@ export default function Form() {
         data: [formDataObject, copyData],
       })
         .then(result => {
+          const userConfirmed2 = window.confirm('만든 페이지로 이동하시겠습니까?');
+          userConfirmed2 ? navigate(`/view/${urlCheck}`) : navigate(`/`)
         })
         .catch(err => console.log('에러==>' + err))
     }
@@ -96,7 +98,7 @@ export default function Form() {
       url: `http://127.0.0.1:8000/newForm/${e.target.value}`,
     })
       .then(result => {
-        setUrlCheck(result.data.cnt === 0 ? true : false)
+        setUrlCheck(result.data.cnt === 0 ? e.target.value : false)
       })
       .catch(err => console.log('에러==>' + err))
   }
@@ -151,7 +153,7 @@ export default function Form() {
                   </li>
                 </>
               }
-              <button className="mt-3 py-1 w-[100%]  bg-neutral-400 hover:bg-neutral-500 py-2  text-center text-white font-bold  rounded-md cursor-pointer" >저장 하기</button>
+              <button className="mt-3 py-1 w-[100%]  bg-neutral-400 hover:bg-neutral-500 py-2  text-center text-white font-bold  rounded-md cursor-pointer" >발행 하기</button>
 
             </ul>
           </div>
