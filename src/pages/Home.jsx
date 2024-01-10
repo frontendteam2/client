@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useMaxWidth } from "../util/useMaxWidth";
-
+import { Link } from "react-router-dom";
 export default function Home() {
   const width = useMaxWidth();
 
@@ -43,9 +43,11 @@ export default function Home() {
           <div className="w-[200px] h-[1px] bg-[#989A9E]" />
         </div>
         <div className="mb-11">
-          <button className="bg-[#7B62FF] rounded-2xl px-3 py-2 text-1xl text-white font-extrabold border-2 border-white mx-auto block">
-            나만의 공유 페이지 만들기
-          </button>
+          <Link to='/input'>
+            <button className="bg-[#7B62FF] rounded-2xl px-3 py-2 text-1xl text-white font-extrabold border-2 border-white mx-auto block">
+              나만의 공유 페이지 만들기
+            </button>
+          </Link>
         </div>
         <div className={`max-w-[1200px] flex mb-20 ${width?'':'flex-wrap'} justify-center`}>
           <div className={` min-w-[150px] max-w-[300px] ${width?'mx-[30px]':'m-[5px]'}`}>
