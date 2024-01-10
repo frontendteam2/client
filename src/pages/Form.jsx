@@ -15,6 +15,7 @@ export default function Form() {
   const [btnToggle, setBtnToggle] = useState(false);
   const [urlCheck, setUrlCheck] = useState(true);
   const width = useMaxWidth();
+  const addBtn = useMaxWidth(1550);
   const navigate = useNavigate();
 
   const inputTitle = useRef(null);
@@ -105,7 +106,7 @@ export default function Form() {
 
   return (
     <main className="min-h-[100vh] mb-24">
-      <form onSubmit={handleSubmit} className={`${width ? 'w-[50%]' : 'w-[90%]'} mx-auto block`}>
+      <form onSubmit={handleSubmit} className={`${width ? 'w-[40%]' : 'w-[90%]'} mx-auto block`}>
         <fieldset className="mx-auto w-[100%] box-border block">
 
 
@@ -140,7 +141,7 @@ export default function Form() {
               return <Content key={i} num={i} category={v.category} />
             }
           })}
-          <div className={`${width ? 'fixed top-80 right-40 w-[250px]' : 'static w-[100%] mt-10'} `} >
+          <div className={`${addBtn ? 'fixed top-80 right-40 w-[250px]' : 'static w-[100%] mt-10'} `} >
             <button type="button" className={`w-[100%] px-4 py-2 box-border hover:bg-neutral-500 bg-neutral-400 font-bold rounded-md text-white`} onClick={() => setBtnToggle(!btnToggle)}>Add</button>
             <ul>
               {btnToggle &&
