@@ -3,7 +3,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import React from "react";
 import axios from "axios";
 import formatRelativeDate from "../../util/date.js";
-
+import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 function Review(params) {
   const line = <div className="w-full h-[1px] bg-slate-500 mt-3 mb-3"></div>;
   const location = useLocation().pathname.slice(1);
@@ -14,6 +14,16 @@ function Review(params) {
   const [paging, setPaging] = useState({});
   const [pageList, setPageList] = useState([]);
 
+  function getReviews(url){
+    return axios
+      .get(`http://localhost:8000/review/${url}`)
+      .then((res) => {
+        if(res.data.length!=0){
+        setTotal(res.data[0].total);
+        setList(res.data??[]);
+      }
+      });
+  }
   function handleReview(e) {
     e.preventDefault();
     const name = e.target.name.value;
@@ -28,7 +38,9 @@ function Review(params) {
           content,
         })
         .then((res) => {
-          window.location.replace(`/${location}`);
+          getReviews(location)
+          setPage(()=>1)
+          e.target.reset()
         })
         .catch((err) => {
           alert("댓글작성에 실패했습니다.");
@@ -37,12 +49,7 @@ function Review(params) {
   }
 
   useEffect(() => {
-    axios
-      .get(`http://localhost:8000/review/${location}/${page}`)
-      .then((res) => {
-        setTotal(res.data[0].total);
-        setList(res.data);
-      });
+    getReviews(location)
   }, []);
 
   useEffect(() => {
@@ -77,32 +84,34 @@ function Review(params) {
         length: paging.lastBottomNumber - paging.firstBottomNumber + 1,
       })
     );
-    console.log(paging,page)
+    
   }, [paging]);
   return (
-    <section className="m-5 bg-slate-100 min-h-[100px]">
+    <section className="w-full min-h-[100px] text-[.85rem]">
       <div className="h-7 text-left">댓글 {list[0] && list[0].total}</div>
-      <form onSubmit={handleReview}>
-        <input type="text" name="name" placeholder="이름" maxLength={10} />
-        <input
-          type="tel"
-          name="phone"
-          className="inline-block"
-          maxLength={11}
-          placeholder="핸드폰번호"
-          onChange={(e) => {
-            setCheckPhone(() => /^(010)[0-9]{4}[0-9]{4}$/.test(e.target.value));
-          }}
-        />
-        <br />
-        <input
+      <form onSubmit={handleReview} className="flex-col justify-stretch text-[.75rem]">
+        <div className="flex w-auto flex-wrap">
+          <input type="text" name="name" placeholder="이름" maxLength={10} className="flex-1 w-0.5 border-2 border-b-0 p-1" />
+          <input
+            type="tel"
+            name="phone"
+            className="flex-1 w-0.5 border-2 border-l-0 border-b-0 p-1"
+            maxLength={11}
+            placeholder="핸드폰번호"
+            onChange={(e) => {
+              setCheckPhone(() => /^(010)[0-9]{4}[0-9]{4}$/.test(e.target.value));
+            }}
+          />
+        </div>
+        
+        <textarea
           type="text"
           name="content"
-          className="inline-block"
+          className="w-full h-[100px] border-2 resize-none p-1"
           maxLength={100}
-          placeholder="댓글"
+          placeholder="댓글(최대 100자)"
         />
-        <button className="border rounded-md">등록</button>
+        <div className="text-right"><button className="border-2 border-black px-2 rounded-md">등록</button></div>
       </form>
       {line}
       <ul>
@@ -110,24 +119,24 @@ function Review(params) {
           .slice((page - 1) * 10, total < page * 10 ? total : page * 10)
           .map((v, i) => {
             return (
-              <li key={i}>
+              <li key={i} className="text-[.75rem]">
                 <div className="mb-2">
                   <span>{v.name} </span>
                   <span> ({v.phone.slice(7)})</span>
-                  <span className="text-[#888888] text-sm">
+                  <span className="text-[#888888] text-[12px] ml-2">
                     {formatRelativeDate(v.date)}
                   </span>
                 </div>
-                <div className="text-wrap">{v.content}</div>
+                <div className="text-wrap font-['TheJamsil']" >{v.content}</div>
                 {line}
               </li>
             );
           })}
         <li className="flex justify-center">
-          <ul className="inline-flex -space-x-px text-base h-10">
+          <ul className="inline-flex -space-x-px text-base h-10 items-center">
             {paging.firstBottomNumber != 1 && (
-              <li onClick={()=>setPage(()=>paging.firstBottomNumber - 1)}>
-                previous
+              <li onClick={()=>setPage(()=>paging.firstBottomNumber - 1)} className="p-2 cursor-pointer hover:text-[#777777]">
+                <FaChevronLeft />
               </li>
             )}
             {pageList &&
@@ -145,8 +154,8 @@ function Review(params) {
                 </li>
               ))}
             {paging.lastBottomNumber != paging.totalPageSize && (
-              <li onClick={()=>setPage(()=>paging.firstBottomNumber + 5)}>
-                next
+              <li onClick={()=>setPage(()=>paging.firstBottomNumber + 5)} className="p-2 cursor-pointer hover:text-[#777777]">
+                <FaChevronRight />
               </li>
             )}
           </ul>
