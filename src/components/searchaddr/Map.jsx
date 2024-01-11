@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from "react";
 const { kakao } = window;
 
-export default function Map({search, subSearch}) {
-  const [values, setValues] = useState([]); // 도로명주소, 위도, 경도, 상세주소
-  
+export default function Map({search, subSearch,setValues,values}) {
   useEffect(() => {
     mapscript();
   }, [search,subSearch]);
@@ -47,27 +45,31 @@ export default function Map({search, subSearch}) {
         map: map,
         position: new kakao.maps.LatLng(place.y, place.x),
       });
-
       // 마커에 클릭이벤트를 등록합니다
       kakao.maps.event.addListener(marker, "click", function () {
         // 마커를 클릭하면 장소명이 인포윈도우에 표출됩니다
         infowindow.setContent(
-          '<div style="padding:5px;font-size:12px;">' +
-            place.place_name +
-            "</div>"
+          `<div style='width:200px;padding:5px; border-radius:5px'>
+          <div>
+            ${place.place_name}
+          </div>
+          <div style='font-size:0.8em'>${place.road_address_name}</div>
+          <div style='font-size:0.7em; color:#888888'>지번 : ${place.address_name}</div>
+          <div><a href=${place.place_url} target='_blank'>자세한 정보 보기👉</a></div>
+          </div>`
         );
         infowindow.open(map, marker);
         setValues([
           place.road_address_name,
           place.y,
           place.x,
-          subSearch
+          subSearch,
+          place.place_url,
+          place.address_name
         ]);
       });
     }
   };
-  console.log(values);
-
   return(
     <div>
       <input type="hidden" name="values" value={values} />

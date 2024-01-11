@@ -117,15 +117,15 @@ export default function Form() {
 
           <div className="text-sm mt-10 text-stone-900 font-semibold block">url을 입력해주세요</div>
           <div className="mt-5 rounded-xl bg-stone-200">
-            <div className="block flex text-center ">
+            <div className="flex text-center ">
               <label htmlFor="" className={`w-[30%] box-border px-3 py-4 text-stone-900  ${width ? 'text-sm' : 'text-xs'} `}>http://localhost/</label>
-              <input type="text" maxLength='20' ref={inputUrl} onBlur={(e) => checkUrl(e)} name='url' placeholder="url을 입력해주세요." className="rounded-xl text-sm py-4 block box-border w-[70%]  bg-stone-50 px-2 box-border" /></div>
+              <input type="text" maxLength='20' ref={inputUrl} onBlur={(e) => checkUrl(e)} name='url' placeholder="url을 입력해주세요." className="rounded-xl text-sm py-4 block w-[70%]  bg-stone-50 px-2 box-border" /></div>
           </div>
           {!urlCheck && <p className="text-red-400 font-bold px-5 py-3 flex"><FaBan /><span className="relative bottom-1 left-1">사용할 수 없는 url입니다.</span></p>}
 
           <div className="text-sm mt-12 text-stone-900 font-semibold block">페이지 제목을 입력해주세요</div>
           <div className="mt-5 rounded-xl bg-stone-200">
-            <div className="block flex text-center ">
+            <div className="flex text-center ">
               <input type="text" name='title' ref={inputTitle} maxLength='20' placeholder="페이지 제목을 입력해주세요." className="rounded-xl text-sm py-4 block flex-1 bg-stone-50 px-2 box-border" />
             </div>
           </div>
@@ -153,7 +153,7 @@ export default function Form() {
                   </li>
                 </>
               }
-              <button className="mt-3 py-1 w-[100%]  bg-neutral-400 hover:bg-neutral-500 py-2  text-center text-white font-bold  rounded-md cursor-pointer" >발행 하기</button>
+              <button className="mt-3 w-[100%]  bg-neutral-400 hover:bg-neutral-500 py-2  text-center text-white font-bold  rounded-md cursor-pointer" >발행 하기</button>
 
             </ul>
           </div>
