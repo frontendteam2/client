@@ -1,5 +1,9 @@
 import { useState,useEffect, useReducer } from "react";
-
+/**
+ * @brief window.innerWidth>800?true:false
+ * 
+ * @returns boolean
+ */
 export function useMaxWidth(){
   const [innerWidth, setInnerWidth] = useState(window.innerWidth>800?true:false);
   useEffect(() => {
