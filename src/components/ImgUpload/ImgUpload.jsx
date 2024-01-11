@@ -52,20 +52,19 @@ export default function ImgUpload(){
         <div className="text-sm mt-12 text-stone-500 font-semibold block">갤러리 - 최대 5장까지 업로드 할 수 있습니다. (옵션)</div>
         <input type="hidden" name="images" value={images} />
         <Upload getImage={getImage}/>
-        <div className="rounded-xl text-sm py-4 block flex-1 bg-white px-2 mt-5 border-2 border-stone-200">
+        <div className="rounded-xl text-sm py-4 block flex-1 bg-white px-5 mt-5 border-2 border-stone-200">
         { 
           images.map((img, i) => (
           <div key={i} className="flex mb-7">
             <img src={`http://localhost:8000/${img}`} alt="" className="w-20"/>
-            <div className="flex-col">
-              <input className="rounded-xl text-sm py-4 bg-stone-100 px-2 ml-5" type="text" placeholder="이미지 설명을 간단하게 넣어주세요 (옵션)"/>
-              <div className="flex justify-between mt-2 ml-5">
-                <div className="flex">
+            <div className="flex-col w-4/5">
+              <div className="flex justify-between items-center ml-5 h-full">
+                <div className="text-3xl h-full flex flex-col justify-between">
                   <p className="mr-3"><IoIosArrowUp className="cursor-pointer" onClick={() => handleListUp(i)}/></p>
                   <p className="mr-3"><IoIosArrowDown className="cursor-pointer" onClick={() => handleListDown(i)}/></p>
                 </div>
                 <div>
-                  <MdDelete className="cursor-pointer" onClick={() => handleDelete(i)}/>
+                  <MdDelete className="cursor-pointer text-3xl" onClick={() => handleDelete(i)}/>
                 </div>
               </div>
             </div>
