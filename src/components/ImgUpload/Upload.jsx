@@ -14,6 +14,7 @@ export default function Upload({getImage}){
     .post('http://localhost:8000/imgupload', formData)
     .then((data) => {
       getImage(data.data);
+      console.log(data.data);
     })
     .catch(err => console.log(err))
   }
@@ -23,7 +24,7 @@ export default function Upload({getImage}){
       <Form.Control
         type='file'
         className="rounded-xl text-sm py-4 block flex-1 bg-stone-100 px-2 mt-5"
-        accept='image/*'
+        accept='image/*'  
         onChange={(e) => { FileUpload(e) }}>
       </Form.Control>
     </>
