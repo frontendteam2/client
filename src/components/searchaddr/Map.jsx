@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react";
 const { kakao } = window;
 
-export default function Map({search, subSearch,setValues,values}) {
+export default function Map({search,setPlaceInfo}) {
+  const [markerCheck,setMarkerCheck]=useState(false)
   useEffect(() => {
     mapscript();
-  }, [search,subSearch]);
+  }, [search]);
+
 
   const mapscript = () => {
     let infowindow = new kakao.maps.InfoWindow({zIndex:1});
@@ -59,14 +61,14 @@ export default function Map({search, subSearch,setValues,values}) {
           </div>`
         );
         infowindow.open(map, marker);
-        setValues(()=>[
+        setPlaceInfo(()=>[
           place.road_address_name??'',
           place.y,
           place.x,
-          subSearch??'',
           place.place_url??'',
           place.address_name??''
         ]);
+        
       });
     }
   };

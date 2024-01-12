@@ -8,7 +8,7 @@ import Map from "./Map";
  * 
  * @returns <div>주소 찾기</div>
  */
-export default function SearchAddr() {
+export default function SearchAddr({buttonPress}) {
   const inputSearch = useRef(null);
   const inputSubSearch = useRef(null);
   const resultRoadAddr = useRef(null)
@@ -18,7 +18,7 @@ export default function SearchAddr() {
   const [subSearch, setSubSearch] = useState('');
   const [watch, setWatch] = useState(false);
   const [readOnly, setReadOnly] = useState(false);
-
+  const [placeInfo,setPlaceInfo]=useState([])
   const [values, setValues] = useState([]); // 도로명주소, 위도, 경도, 상세주소
 
   const handleSubmit = (e) => {
@@ -34,13 +34,16 @@ export default function SearchAddr() {
   }
 
   const handleChangeAddr = (e) => {
-    setSubSearch(e.target.value)
+    setSubSearch(()=>inputSubSearch.current.value)
+    
   }
 
   const handleCheck = () => {
     setReadOnly(true)
     setWatch(false)
-    setSubSearch(() => inputSubSearch.current.value)
+    setValues([...placeInfo,subSearch])
+    buttonPress(true)
+    // setSubSearch(() => inputSubSearch.current.value)
   }
 
 
@@ -73,15 +76,14 @@ export default function SearchAddr() {
                   search={search}
                   subSearch={subSearch}
                   className="text-sm block flex-1 bg-white mt-4 border-2 border-black"
-                  setValues={setValues}
-                  values={values}
+                  setPlaceInfo={setPlaceInfo}
                 >
                 </Map>
               </div>
             </>
           }
-          <div className={`rounded-xl text-sm py-4 block bg-stone-100 mt-3 px-2 ${values[0] ? '' : 'text-[#999999]'}`} ref={resultRoadAddr}>{values[0] ?? "도로명 주소"}</div>
-          <div className={`rounded-xl text-sm py-4 block bg-stone-100 mt-3 px-2 ${values[0] ? '' : 'text-[#999999]'}`} ref={resultAddr}>{values[5] ?? "번지 주소"}</div>
+          <div className={`rounded-xl text-sm py-4 block bg-stone-100 mt-3 px-2 ${values[0] ? '' : 'text-[#999999]'}`} ref={resultRoadAddr}>{placeInfo[0] ?? "도로명 주소"}</div>
+          <div className={`rounded-xl text-sm py-4 block bg-stone-100 mt-3 px-2 ${values[0] ? '' : 'text-[#999999]'}`} ref={resultAddr}>{placeInfo[4] ?? "번지 주소"}</div>
           <input
             type="text"
             ref={inputSubSearch}
@@ -90,7 +92,8 @@ export default function SearchAddr() {
             placeholder="상세 주소" 
             readOnly={readOnly}
             maxLength={100}
-            onChange={handleChangeAddr}
+            value={subSearch}
+            onChange={e=>handleChangeAddr()}
           />
 
           <button type="button" className="mt-3 p-3 bg-stone-100 border-slate-600" onClick={handleCheck}>장소 확정</button>

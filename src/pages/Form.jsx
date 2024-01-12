@@ -14,7 +14,8 @@ export default function Form() {
   const [questionTitle, setQuestionTitle] = useState('');
   const [btnToggle, setBtnToggle] = useState(false);
   const [urlCheck, setUrlCheck] = useState(true);
-  const [mapCheck, setMapCheck] = useState(false)
+  const [mapCheck, setMapCheck] = useState(false);
+  const [mapBtn, setMapBtn] = useState(false);
   const width = useMaxWidth();
   const navigate = useNavigate();
 
@@ -22,7 +23,6 @@ export default function Form() {
   const inputUrl = useRef(null);
 
   let state = useSelector(state => state)
-  console.log(state);
   const dispatch = useDispatch();
 
 
@@ -38,65 +38,74 @@ export default function Form() {
       if (!mapCheck) {
         dispatch({ type: txt })
         setMapCheck(true)
-      }else{
+      } else {
         alert('주소는 하나만 등록이 가능합니다!')
       }
-    } else if(txt === 'image'){
+    } else if (txt === 'image') {
       dispatch({ type: txt })
     }
   };
 
+  const buttonPress = (e) => setMapBtn(e)
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    const formData = new FormData(e.target);
-    const formDataObject = {};
-    formData.forEach((value, key) => {
+    if (mapCheck) {
+      if (mapBtn) {
+        const formData = new FormData(e.target);
+        const formDataObject = {};
+        formData.forEach((value, key) => {
 
-      if (!key.includes('content') && !key.includes('image') && !key.includes('address') && !key.includes('search') && !key.includes('subSearch')) {
-        formDataObject[key] = value
-      }
-    })
-
-    if (formDataObject.url === '') {
-      alert('url을 입력해주세요.')
-      return inputUrl.current.focus()
-    } else if (!urlCheck) {
-      alert('사용할 수 없는 url입니다.')
-      return inputUrl.current.focus()
-    }
-    if (formDataObject.title === '') {
-      alert('제목을 입력해주세요.')
-      return inputTitle.current.focus()
-    }
-
-    let copyData = [...state];
-    let i = 0;
-    formData.forEach((value, key) => {
-      if (key.includes('content')) {
-        copyData[i] = { category: copyData[i].category, content: value }
-        i++;
-      } else if (key.includes('image')) {
-        copyData[i] = { category: copyData[i].category, content: value }
-        i++;
-      } else if (key.includes('address')) {
-
-        copyData[i] = { category: copyData[i].category, content: value }
-        i++;
-      }
-    });
-
-    const userConfirmed = window.confirm('페이지를 발행 하시겠습니까 ?');
-    if (userConfirmed) {
-      axios({
-        method: 'post',
-        url: `http://127.0.0.1:8000/newForm`,
-        data: [formDataObject, copyData],
-      })
-        .then(result => {
-          // const userConfirmed2 = window.confirm('만든 페이지로 이동하시겠습니까?');
-          // userConfirmed2 ? navigate(`/view/${urlCheck}`) : navigate(`/`)
+          if (!key.includes('content') && !key.includes('image') && !key.includes('address') && !key.includes('search') && !key.includes('subSearch')) {
+            formDataObject[key] = value
+          }
         })
-        .catch(err => console.log('에러==>' + err))
+
+        if (formDataObject.url === '') {
+          alert('url을 입력해주세요.')
+          return inputUrl.current.focus()
+        } else if (!urlCheck) {
+          alert('사용할 수 없는 url입니다.')
+          return inputUrl.current.focus()
+        }
+        if (formDataObject.title === '') {
+          alert('제목을 입력해주세요.')
+          return inputTitle.current.focus()
+        }
+
+        let copyData = [...state];
+        let i = 0;
+        formData.forEach((value, key) => {
+          if (key.includes('content')) {
+            copyData[i] = { category: copyData[i].category, content: value }
+            i++;
+          } else if (key.includes('image')) {
+            copyData[i] = { category: copyData[i].category, content: value }
+            i++;
+          } else if (key.includes('address')) {
+            copyData[i] = { category: copyData[i].category, content: value }
+            i++;
+          }
+        });
+
+        const userConfirmed = window.confirm('페이지를 발행 하시겠습니까 ?');
+        if (userConfirmed) {
+          axios({
+            method: 'post',
+            url: `http://127.0.0.1:8000/newForm`,
+            data: [formDataObject, copyData],
+          })
+            .then(result => {
+              dispatch({ type: 'reset' })
+              const userConfirmed2 = window.confirm('만든 페이지로 이동하시겠습니까?');
+              userConfirmed2 ? navigate(`/view/${urlCheck}`) : navigate(`/`)
+            })
+            .catch(err => console.log('에러==>' + err))
+        }
+
+      }else{
+        alert('장소확정 버튼을 클릭해주세요')
+      }
     }
 
   }
@@ -144,7 +153,7 @@ export default function Form() {
             if (v.category === '이미지') {
               return <ImgUpload key={i} num={i} />
             } else if (v.category === '주소') {
-              return <SearchAddr key={i} num={i} />
+              return <SearchAddr key={i} num={i} buttonPress={buttonPress} />
             } else {
               return <Content key={i} num={i} category={v.category} />
             }
