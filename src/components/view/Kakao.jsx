@@ -8,11 +8,10 @@ const Kakao = ({addr ,address, center, markerPosition}) => {
   const width = useMaxWidth();
   const mapContainerRef = useRef(null);
   let addressList = addr.split(',');
-  
 
   // 주소 복사
   const handleCopyClipBoard = async () => {
-    const textToCopy = `${addressList[0]} (${addressList[1]})`
+    const textToCopy = `${addressList[0]&&addressList[4]} (${addressList[5]})`
 
     try {
       await navigator.clipboard.writeText(textToCopy);
@@ -25,7 +24,7 @@ const Kakao = ({addr ,address, center, markerPosition}) => {
   const initializeMap = () => {
     let container = mapContainerRef.current;
     let options = {
-      center: center || new kakao.maps.LatLng(addressList[2], addressList[1]),
+      center: center || new kakao.maps.LatLng(addressList[1], addressList[2]),
       level: 3,
     };
 
@@ -33,7 +32,7 @@ const Kakao = ({addr ,address, center, markerPosition}) => {
     let map = new kakao.maps.Map(container, options);
 
     // 표시 될 위치
-    let markerPositon = markerPosition || new kakao.maps.LatLng(addressList[2], addressList[1]);
+    let markerPositon = markerPosition || new kakao.maps.LatLng(addressList[1], addressList[2]);
 
     // 마커 생성
     let marker = new kakao.maps.Marker({
@@ -51,8 +50,8 @@ const Kakao = ({addr ,address, center, markerPosition}) => {
   return (
     <>
       <div className={"w-full h-16  bg-gray-200 border-none rounded-3xl flex p-5 mt-5 "}>
-        <p className={"overflow-hidden whitespace-nowrap text-ellipsis text-[.85rem] mt-1"}>
-          {addressList[0]} ({addressList[1]})
+        <p className={"overflow-hidden whitespace-nowrap text-ellipsis text-[.9rem] mt-[3px]"}>
+          {addressList[0]&&addressList[4]} ({addressList[5]})
         </p>
         <div className="flex-grow"></div>
         <MdContentCopy className="mt-1 ml-1 w-10" onClick={handleCopyClipBoard} />
