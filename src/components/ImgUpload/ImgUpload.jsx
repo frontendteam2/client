@@ -2,10 +2,13 @@ import React, { useState } from "react";
 import Upload from "./Upload";
 import { MdDelete } from "react-icons/md";
 import { IoIosArrowUp, IoIosArrowDown  } from "react-icons/io";
+import { useDispatch } from "react-redux";
+import { IoClose } from "react-icons/io5";
 
-export default function ImgUpload(){
+export default function ImgUpload(props){
 
   const [images, setImages] = useState([]);
+  const dispatch = useDispatch();
 
   /* 이미지가져오기 */
   const getImage = (e) => {
@@ -45,11 +48,11 @@ export default function ImgUpload(){
       setImages(updatedImages);
     }
   }
-
+  
   return(
     <>
-      <div className="text-sm mt-10 font-bold">
-        <div className="text-sm mt-12 text-stone-500 font-semibold block">갤러리 - 최대 5장까지 업로드 할 수 있습니다. (옵션)</div>
+      <div className="text-sm mt-10 ">
+        <div className="text-sm mt-12 text-stone-700  block  font-['JalnanGothic']">갤러리 - 최대 5장까지 업로드 할 수 있습니다. (옵션)<button type="button" onClick={(e)=> dispatch({ type: 'close', num: props.num })}  className="ml-5"><IoClose /></button></div>
         <input type="hidden" name="images" value={images} />
         <Upload getImage={getImage}/>
         <div className="rounded-xl text-sm py-4 block flex-1 bg-white px-5 mt-5 border-2 border-stone-200">

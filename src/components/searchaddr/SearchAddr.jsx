@@ -1,5 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import Map from "./Map";
+import { useDispatch } from "react-redux";
+import { IoClose } from "react-icons/io5";
 
 /**
  * 
@@ -8,7 +10,7 @@ import Map from "./Map";
  * 
  * @returns <div>주소 찾기</div>
  */
-export default function SearchAddr({buttonPress}) {
+export default function SearchAddr(props) {
   const inputSearch = useRef(null);
   const inputSubSearch = useRef(null);
   const resultRoadAddr = useRef(null)
@@ -20,6 +22,7 @@ export default function SearchAddr({buttonPress}) {
   const [readOnly, setReadOnly] = useState(false);
   const [placeInfo,setPlaceInfo]=useState([])
   const [values, setValues] = useState([]); // 도로명주소, 위도, 경도, 상세주소
+  const dispatch = useDispatch();
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -42,15 +45,15 @@ export default function SearchAddr({buttonPress}) {
     setReadOnly(true)
     setWatch(false)
     setValues([...placeInfo,subSearch])
-    buttonPress(true)
+    props.buttonPress(true)
     // setSubSearch(() => inputSubSearch.current.value)
   }
 
 
   return (
     <>
-      <div className="text-sm mt-10 font-bold">
-        <div className="text-sm mt-12 text-stone-500 font-semibold block">주소 찾기</div>
+      <div className="text-sm mt-10 ">
+        <div className="text-sm mt-12 text-stone-700  block  font-['JalnanGothic']">주소 찾기<button type="button" onClick={(e)=> dispatch({ type: 'close', num: props.num })}  className="ml-5"><IoClose /></button></div>
         <div className="border-1">
           
             <input
