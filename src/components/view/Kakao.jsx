@@ -25,7 +25,7 @@ const Kakao = ({addr ,address, center, markerPosition}) => {
     let container = mapContainerRef.current;
     let options = {
       center: center || new kakao.maps.LatLng(addressList[1], addressList[2]),
-      level: 3,
+      level: 1,
     };
 
     // 지도 생성 및 객체 리턴
@@ -49,7 +49,7 @@ const Kakao = ({addr ,address, center, markerPosition}) => {
 
   return (
     <>
-      <div className={"w-full h-16  bg-gray-200 border-none rounded-3xl flex p-5 mt-5 "}>
+      <div className={"w-full h-16  bg-gray-200 border-none rounded-3xl flex p-5 mt-8 "}>
         <p className={"overflow-hidden whitespace-nowrap text-ellipsis text-[.9rem] mt-[3px]"}>
           {addressList[0]&&addressList[4]} ({addressList[5]})
         </p>

@@ -5,7 +5,7 @@ import { IoMdArrowDroprightCircle } from "react-icons/io";
 export default function Content({stitle,content}){
 
   return(
-    <div className=" mt-7">
+    <div className=" mt-12">
       <div>
         <IoMdArrowDroprightCircle className="float-left mr-1 mt-[3px]" />
         <p className="text-[1.1rem]">{stitle}</p>

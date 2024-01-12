@@ -14,7 +14,6 @@ export default function Upload({getImage}){
     .post('http://localhost:8000/imgupload', formData)
     .then((data) => {
       getImage(data.data);
-      console.log(data.data);
     })
     .catch(err => console.log(err))
   }

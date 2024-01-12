@@ -13,7 +13,6 @@ import reducer from "./modules/reducer";
 
 /** 스토어 생성 */
 const store = createStore(reducer)
-console.log(store.getState());
 const router = createBrowserRouter([
   {
     path: "/",

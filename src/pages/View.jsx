@@ -6,6 +6,7 @@ import Slide from "../components/view/Slide";
 import Content from "../components/view/Content";
 import axios from "axios";
 import { Link, useParams } from "react-router-dom";
+import Review from './../components/view/Review';
 
 
 export default function View(){
@@ -81,11 +82,13 @@ export default function View(){
             }
           })}
 
-            <Link to={'/input'} className="w-28 h-10 block p-3 mx-auto mt-10 bg-gray-200 border-none rounded-2xl text-[.8rem]">
+            <Link to={'/input'} className="w-28 h-10 block p-3 mx-auto m-14 bg-gray-200 border-none rounded-2xl text-[.9rem]">
               <p className="text-center">
                 나도 만들기
               </p>
             </Link>
+
+            <Review />
           </>
           ):(
             <div className="min-h-[100vh]">

@@ -24,7 +24,7 @@ export default function Slide({img}){
       <>
         <div>
           <IoMdArrowDroprightCircle className="float-left mr-1 mt-[3px]" />
-          <p className="text-[1.1rem] mt-7">사진보기</p>
+          <p className="text-[1.1rem] mt-12">사진보기</p>
         </div>
         <Slider {...settings}>
           {images.map((imageUrl, index) => (
@@ -43,7 +43,7 @@ export default function Slide({img}){
           <>
             <div>
               <IoMdArrowDroprightCircle className="float-left mr-1 mt-[3px]" />
-              <p className="text-[1.1rem] mt-7">사진보기</p>
+              <p className="text-[1.1rem] mt-12">사진보기</p>
             </div>
             {images.map((imageUrl, index) => (
                 <div 
