@@ -34,7 +34,7 @@ export default function View(){
             <div className="inline float-left ">
                 <h2 className="text-3xl inline-flex font-['JalnanGothic']">{list[0].title}</h2>
                 <div className=" text-neutral-400 text-sm mt-1">
-                  <p className="float-left">지번 주소 보기</p>
+                  <p className="float-left">도로명 주소 보기</p>
                   <IoIosArrowDown className= "text-xl" onClick={()=>{setModal(!modal)}}/>
                 </div>
             </div>
@@ -44,10 +44,10 @@ export default function View(){
           <div className="clear-both"></div>
 
             { modal == true ? ( 
-              <ul className="w-40 h-50 p-2 absolute bg-white text-s  border-2 rounded-xl">
-                <li className="p-1 text-[.8rem]">도로명 주소 보기</li>
+              <ul className="w-32 p-1 absolute bg-white border-2 rounded-xl">
+                <li className="p-1 text-[.7rem]">도로명 주소 보기</li>
                 <li><hr /></li>
-                <li className="p-1 text-[.8rem]">지번 주소 보기</li>
+                <li className="p-1 text-[.7rem]">지번 주소 보기</li>
               </ul>
               ) : null
             }
@@ -88,11 +88,11 @@ export default function View(){
             </Link>
           </>
           ):(
-            <div>
+            <div className="min-h-[100vh]">
               <p className="text-center">
                 주소를 확인해 주세요 
               </p>
-              <p className="text-center text-[50px]">
+              <p className="text-center text-[65px]">
                 😢 
               </p>
             </div>
