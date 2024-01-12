@@ -81,7 +81,7 @@ export default function View(){
             }
           })}
 
-            <Link className="w-28 h-10 block p-3 mx-auto mt-10 bg-gray-200 border-none rounded-2xl text-[.8rem]">
+            <Link to={'/input'} className="w-28 h-10 block p-3 mx-auto mt-10 bg-gray-200 border-none rounded-2xl text-[.8rem]">
               <p className="text-center">
                 나도 만들기
               </p>
@@ -89,7 +89,12 @@ export default function View(){
           </>
           ):(
             <div>
-              NO~
+              <p className="text-center">
+                주소를 확인해 주세요 
+              </p>
+              <p className="text-center text-[50px]">
+                😢 
+              </p>
             </div>
           )}
       </div>

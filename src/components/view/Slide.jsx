@@ -24,7 +24,7 @@ export default function Slide({img}){
 
   const settings = {
     // dots: true,
-    infinite: true,
+    // infinite: true,
     slidesToShow: 4, 
     slidesToScroll: 1,
     arrows: true
@@ -41,8 +41,7 @@ export default function Slide({img}){
           {images.map((imageUrl, index) => (
             <div key={index} border-b-2 border-gray-100>
                 <img
-                  className={`${width ? "w-full h-40 p-[2px] object-cover "  : "w-full h-20 p-[2px] object-cover " }`}
-                  // className={"w-full h-24 p-[2px] object-cover "}
+                  className={`${width ? "w-full h-32 p-[2px] object-cover "  : "w-full h-20 p-[2px] object-cover " }`}
                   src={imageUrl}
                   alt={`Slide ${index + 1}`}
                   />
