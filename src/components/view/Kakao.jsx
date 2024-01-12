@@ -7,13 +7,15 @@ const { kakao } = window;
 const Kakao = ({addr ,address, center, markerPosition}) => {
   const width = useMaxWidth();
   const mapContainerRef = useRef(null);
-  const addressList = addr.split(',');
+  let addressList = addr.split(',');
   
 
   // 주소 복사
-  const handleCopyClipBoard = async (text) => {
+  const handleCopyClipBoard = async () => {
+    const textToCopy = `${addressList[0]} (${addressList[1]})`
+
     try {
-      await navigator.clipboard.writeText(text);
+      await navigator.clipboard.writeText(textToCopy);
       alert("클립보드에 주소가 복사되었습니다!");
     } catch (err) {
       console.log(err);
@@ -23,7 +25,7 @@ const Kakao = ({addr ,address, center, markerPosition}) => {
   const initializeMap = () => {
     let container = mapContainerRef.current;
     let options = {
-      center: center || new kakao.maps.LatLng(addressList[1], addressList[2]),
+      center: center || new kakao.maps.LatLng(addressList[2], addressList[1]),
       level: 3,
     };
 
@@ -31,7 +33,7 @@ const Kakao = ({addr ,address, center, markerPosition}) => {
     let map = new kakao.maps.Map(container, options);
 
     // 표시 될 위치
-    let markerPositon = markerPosition || new kakao.maps.LatLng(addressList[1], addressList[2]);
+    let markerPositon = markerPosition || new kakao.maps.LatLng(addressList[2], addressList[1]);
 
     // 마커 생성
     let marker = new kakao.maps.Marker({
@@ -48,17 +50,17 @@ const Kakao = ({addr ,address, center, markerPosition}) => {
 
   return (
     <>
-      <div className={"w-full h-20  bg-gray-200 border-none rounded-3xl flex p-5 mt-3 "}>
-        <p className={"overflow-hidden whitespace-nowrap text-ellipsis text-[.85rem] mt-3"}>
-          {addressList[0]}
+      <div className={"w-full h-16  bg-gray-200 border-none rounded-3xl flex p-5 mt-5 "}>
+        <p className={"overflow-hidden whitespace-nowrap text-ellipsis text-[.85rem] mt-1"}>
+          {addressList[0]} ({addressList[1]})
         </p>
         <div className="flex-grow"></div>
-        <MdContentCopy className="mt-3 ml-1 w-10" onClick={() => handleCopyClipBoard(addressList[0])} />
+        <MdContentCopy className="mt-1 ml-1 w-10" onClick={handleCopyClipBoard} />
       </div>
       <div
         ref={mapContainerRef}
         id="map"
-        className={`${width ? "h-96 w-full border-2 mt-5 " : "h-72 w-full border-2 mt-5 "} `}
+        className={`${width ? "h-96 w-full border-2 mt-3 " : "h-72 w-full border-2 mt-3 "} `}
       ></div>
     </>
   );
