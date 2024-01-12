@@ -14,6 +14,7 @@ export default function Form() {
   const [questionTitle, setQuestionTitle] = useState('');
   const [btnToggle, setBtnToggle] = useState(false);
   const [urlCheck, setUrlCheck] = useState(true);
+  const [mapCheck, setMapCheck] = useState(false)
   const width = useMaxWidth();
   const navigate = useNavigate();
 
@@ -21,7 +22,7 @@ export default function Form() {
   const inputUrl = useRef(null);
 
   let state = useSelector(state => state)
-
+  console.log(state);
   const dispatch = useDispatch();
 
 
@@ -33,10 +34,16 @@ export default function Form() {
     } else if (txt === 'content' && questionTitle) {
       dispatch({ type: 'content', title: questionTitle })
       setQuestionTitle('')
-    } else {
+    } else if (txt === 'address') {
+      if (!mapCheck) {
+        dispatch({ type: txt })
+        setMapCheck(true)
+      }else{
+        alert('주소는 하나만 등록이 가능합니다!')
+      }
+    } else if(txt === 'image'){
       dispatch({ type: txt })
     }
-
   };
 
   const handleSubmit = (e) => {
@@ -44,7 +51,8 @@ export default function Form() {
     const formData = new FormData(e.target);
     const formDataObject = {};
     formData.forEach((value, key) => {
-      if (!key.includes('content') && !key.includes('image') && !key.includes('address')) {
+
+      if (!key.includes('content') && !key.includes('image') && !key.includes('address') && !key.includes('search') && !key.includes('subSearch')) {
         formDataObject[key] = value
       }
     })
@@ -71,6 +79,7 @@ export default function Form() {
         copyData[i] = { category: copyData[i].category, content: value }
         i++;
       } else if (key.includes('address')) {
+
         copyData[i] = { category: copyData[i].category, content: value }
         i++;
       }
@@ -84,8 +93,8 @@ export default function Form() {
         data: [formDataObject, copyData],
       })
         .then(result => {
-          const userConfirmed2 = window.confirm('만든 페이지로 이동하시겠습니까?');
-          userConfirmed2 ? navigate(`/view/${urlCheck}`) : navigate(`/`)
+          // const userConfirmed2 = window.confirm('만든 페이지로 이동하시겠습니까?');
+          // userConfirmed2 ? navigate(`/view/${urlCheck}`) : navigate(`/`)
         })
         .catch(err => console.log('에러==>' + err))
     }

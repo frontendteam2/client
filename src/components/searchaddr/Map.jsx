@@ -59,20 +59,19 @@ export default function Map({search, subSearch,setValues,values}) {
           </div>`
         );
         infowindow.open(map, marker);
-        setValues([
-          place.road_address_name,
+        setValues(()=>[
+          place.road_address_name??'',
           place.y,
           place.x,
-          subSearch,
-          place.place_url,
-          place.address_name
+          subSearch??'',
+          place.place_url??'',
+          place.address_name??''
         ]);
       });
     }
   };
   return(
     <div>
-      <input type="hidden" name="values" value={values} />
       <div id="map" className="w-full h-96 border-4 border-gray-800"></div>
     </div>
   );

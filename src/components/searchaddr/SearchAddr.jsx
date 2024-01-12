@@ -81,7 +81,7 @@ export default function SearchAddr() {
             </>
           }
           <div className={`rounded-xl text-sm py-4 block bg-stone-100 mt-3 px-2 ${values[0] ? '' : 'text-[#999999]'}`} ref={resultRoadAddr}>{values[0] ?? "도로명 주소"}</div>
-          <div className={`rounded-xl text-sm py-4 block bg-stone-100 mt-3 px-2 ${values[0] ? '' : 'text-[#999999]'}`} ref={resultAddr}>{values[4] ?? "번지 주소"}</div>
+          <div className={`rounded-xl text-sm py-4 block bg-stone-100 mt-3 px-2 ${values[0] ? '' : 'text-[#999999]'}`} ref={resultAddr}>{values[5] ?? "번지 주소"}</div>
           <input
             type="text"
             ref={inputSubSearch}
@@ -95,7 +95,7 @@ export default function SearchAddr() {
 
           <button type="button" className="mt-3 p-3 bg-stone-100 border-slate-600" onClick={handleCheck}>장소 확정</button>
         </div>
-
+        <input type="hidden" name="address" value={values} />
       </div>
     </>
   )

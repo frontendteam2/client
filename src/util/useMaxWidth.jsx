@@ -1,4 +1,4 @@
-import { useState,useEffect, useReducer } from "react";
+import { useState,useEffect } from "react";
 /**
  * @brief window.innerWidth>800?true:false
  * 

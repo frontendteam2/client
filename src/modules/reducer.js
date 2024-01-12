@@ -1,4 +1,3 @@
-import Question from '../components/content/Content';
 
 
 const items =  [] 
