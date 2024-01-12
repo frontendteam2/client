@@ -17,6 +17,7 @@ export default function Form() {
   const [mapCheck, setMapCheck] = useState(false);
   const [mapBtn, setMapBtn] = useState(false);
   const width = useMaxWidth();
+  const addBtn = useMaxWidth(1550);
   const navigate = useNavigate();
 
   const inputTitle = useRef(null);
@@ -123,17 +124,17 @@ export default function Form() {
 
   return (
     <main className="min-h-[100vh] mb-24">
-      <form onSubmit={handleSubmit} className={`${width ? 'w-[50%]' : 'w-[90%]'} mx-auto block`}>
+      <form onSubmit={handleSubmit} className={`${width ? 'w-[40%]' : 'w-[90%]'} mx-auto block`}>
         <fieldset className="mx-auto w-[100%] box-border block">
 
 
-          <h2 className="mt-28 text-2xl font-bold">주소 추가하기</h2>
-          <p className="text-sm mt-10 font-bold text-stone-900">
+          <h2 className="mt-28 text-2xl font-bold font-['JalnanGothic']">주소 추가하기</h2>
+          <p className="text-xs mt-10 font-['JalnanGothic'] text-stone-500">
             공유할 때 사용할 내 주소 페이지의 URL을 입력해주세요. <br />
             한글, 영문 모두 사용 가능하며 모두 동일한 페이지로 이동합니다
           </p>
 
-          <div className="text-sm mt-10 text-stone-900 font-semibold block">url을 입력해주세요</div>
+          <div className="text-sm mt-10 text-stone-700  block font-['JalnanGothic']">url을 입력해주세요</div>
           <div className="mt-5 rounded-xl bg-stone-200">
             <div className="flex text-center ">
               <label htmlFor="" className={`w-[30%] box-border px-3 py-4 text-stone-900  ${width ? 'text-sm' : 'text-xs'} `}>http://localhost/</label>
@@ -141,7 +142,7 @@ export default function Form() {
           </div>
           {!urlCheck && <p className="text-red-400 font-bold px-5 py-3 flex"><FaBan /><span className="relative bottom-1 left-1">사용할 수 없는 url입니다.</span></p>}
 
-          <div className="text-sm mt-12 text-stone-900 font-semibold block">페이지 제목을 입력해주세요</div>
+          <div className="text-sm mt-12 text-stone-700 block font-['JalnanGothic']">페이지 제목을 입력해주세요</div>
           <div className="mt-5 rounded-xl bg-stone-200">
             <div className="flex text-center ">
               <input type="text" name='title' ref={inputTitle} maxLength='20' placeholder="페이지 제목을 입력해주세요." className="rounded-xl text-sm py-4 block flex-1 bg-stone-50 px-2 box-border" />
@@ -158,7 +159,7 @@ export default function Form() {
               return <Content key={i} num={i} category={v.category} />
             }
           })}
-          <div className={`${width ? 'fixed top-80 right-40 w-[250px]' : 'static w-[100%] mt-10'} `} >
+          <div className={`${addBtn ? 'fixed top-80 right-40 w-[250px]' : 'static w-[100%] mt-10'} `} >
             <button type="button" className={`w-[100%] px-4 py-2 box-border hover:bg-neutral-500 bg-neutral-400 font-bold rounded-md text-white`} onClick={() => setBtnToggle(!btnToggle)}>Add</button>
             <ul>
               {btnToggle &&

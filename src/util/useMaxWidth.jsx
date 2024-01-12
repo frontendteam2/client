@@ -4,11 +4,11 @@ import { useState,useEffect } from "react";
  * 
  * @returns boolean
  */
-export function useMaxWidth(){
+export function useMaxWidth(w=800){
   const [innerWidth, setInnerWidth] = useState(window.innerWidth>800?true:false);
   useEffect(() => {
     const resizeListener = () => {
-      setInnerWidth(state=>window.innerWidth>800?true:false);
+      setInnerWidth(state=>window.innerWidth>w?true:false);
     };
     window.addEventListener("resize", resizeListener);
   },[]);
