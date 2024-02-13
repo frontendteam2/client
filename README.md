@@ -5,8 +5,11 @@ juso.io는 정해진 형식에 따라 위치, 사진, 시간, 주차정보등의
 또한 공유된 페이지를 사용자가 모바일 환경에서 주로 사용할 것으로 예상하여 반응형으로 제작했습니다.
 
 사용 언어 및 라이브러리
+
 Front-End : HTML, CSS, JavaScript, React, TailwindCSS
+
 Back-End : Nodejs, ExpressJs
+
 DB : MySQL
 
 ### 메인페이지
